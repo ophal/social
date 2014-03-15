@@ -1,11 +1,13 @@
-local add_js, l, render_attributes = add_js, l, render_attributes
-local json, config = require 'dkjson', settings.social
+local add_js, l, render_attributes, url = add_js, l, render_attributes, url
+local json, config, tconcat = require 'dkjson', settings.social, table.concat
+local theme, add_css = theme, add_css
 
 local debug = debug
 
 module 'ophal.modules.social'
 
 local js_added
+local css_added
 
 function get_social_button(widget, url, text, attributes)
   if attributes == nil then
@@ -22,6 +24,11 @@ function get_social_button(widget, url, text, attributes)
     end
 
     js_added = true
+  end
+
+  if not css_added then
+    add_css 'modules/social/social.css'
+    css_added = true
   end
 
   attributes.class = 'socialite ' .. widget
