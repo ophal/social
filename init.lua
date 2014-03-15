@@ -9,6 +9,20 @@ module 'ophal.modules.social'
 local js_added
 local css_added
 
+--[[
+  Implements hook_content_load().
+]]
+function content_render(content)
+  content.social_links = tconcat{'<div id="social">',
+    theme{'item_list', list = {
+      get_social_button('googleplus-one', url('content/' .. content.id), '', {['data-size'] = 'tall'}),
+      get_social_button('twitter-share', '#', content.title, {['data-related'] = 'MisMoldesGratis', ['data-count'] = 'vertical'}),
+      get_social_button('facebook-like', '#', '', {['data-layout'] = 'box_count', ['data-width'] = 60, ['data-show-faces'] = 'false', ['data-send'] = 'false'}),
+    }},
+    '</div>',
+  }
+end
+
 function get_social_button(widget, url, text, attributes)
   if attributes == nil then
     attributes = {}
