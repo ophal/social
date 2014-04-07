@@ -29,12 +29,11 @@ function get_social_button(widget, url, text, attributes)
   end
 
   if not js_added then
-    add_js 'libraries/jquery.min.js'
     add_js 'modules/social/socialite.min.js'
     add_js 'modules/social/social.js'
 
     if config then
-      add_js{type = 'inline', 'Ophal = ' .. json.encode({settings = {social = config}})}
+      add_js{type = 'settings', namespace = 'social', config}
     end
 
     js_added = true
