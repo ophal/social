@@ -34,7 +34,7 @@ function get_social_button(widget, url, text, attributes)
     add_js 'modules/social/social.js'
 
     if config then
-      add_js{'social', type = 'inline', content = 'Ophal = ' .. json.encode({settings = {social = config}})}
+      add_js{type = 'inline', 'Ophal = ' .. json.encode({settings = {social = config}})}
     end
 
     js_added = true
