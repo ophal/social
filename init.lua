@@ -1,3 +1,4 @@
+local config = settings.social
 local add_js, l, render_attributes, url = add_js, l, render_attributes, url
 local json, config, tconcat = require 'dkjson', settings.social, table.concat
 local theme, add_css = theme, add_css
@@ -10,13 +11,16 @@ local js_added
 local css_added
 
 --[[
-  Implements hook_content_load().
+  Implements hook entity_render().
 ]]
-function content_render(content)
-  content.social_links = tconcat{'<div id="social">',
+function entity_render(entity)
+  if not config.entities[entity.type] then return end
+
+  entity.social_links = tconcat{
+    '<div id="social">',
     theme{'item_list', list = {
-      get_social_button('googleplus-one', url('content/' .. content.id, {absolute = true}), '', {['data-size'] = 'tall'}),
-      get_social_button('twitter-share', url('content/' .. content.id, {absolute = true}), content.title, {['data-related'] = 'MisMoldesGratis', ['data-count'] = 'vertical'}),
+      get_social_button('googleplus-one', url('content/' .. entity.id, {absolute = true}), '', {['data-size'] = 'tall'}),
+      get_social_button('twitter-share', url('content/' .. entity.id, {absolute = true}), entity.title, {['data-related'] = 'MisMoldesGratis', ['data-count'] = 'vertical'}),
       get_social_button('facebook-like', '#', '', {['data-layout'] = 'box_count', ['data-width'] = 60, ['data-show-faces'] = 'false', ['data-send'] = 'false'}),
     }},
     '</div>',
