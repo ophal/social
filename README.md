@@ -28,7 +28,7 @@ settings.social = {
 
   -- (Optional) Configure the language
   facebook = {lang = 'es_LA'},
-  twitter = {lang = 'es'},
+  twitter = {lang = 'es', ['data-related'] = 'Your-Twitter-Username'},
   googleplus = {lang = 'es-419'},
 }
 ```
