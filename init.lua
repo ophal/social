@@ -1,3 +1,7 @@
+local _M = {
+}
+ophal.modules.social = _M
+
 local config = settings.social
 local add_js, l, render_attributes, url = add_js, l, render_attributes, url
 local json, config, tconcat = require 'dkjson', settings.social, table.concat
@@ -5,22 +9,20 @@ local theme, add_css = theme, add_css
 
 local debug = debug
 
-module 'ophal.modules.social'
-
 local js_added
 local css_added
 
 --[[
   Implements hook entity_render().
 ]]
-function entity_render(parent)
+function _M.entity_render(parent)
   if not config.entities[parent.type] then return end
   parent.social_links = tconcat{
     '<div id="social">',
     theme{'item_list', list = {
-      get_social_button('googleplus-one', url(('%s/%s'):format(parent.type, parent.id), {absolute = true}), '', {['data-size'] = 'tall'}),
-      get_social_button('twitter-share', url(('%s/%s'):format(parent.type, parent.id), {absolute = true}), parent.title, {['data-related'] = config.twitter['data-related'], ['data-count'] = 'vertical'}),
-      get_social_button('facebook-like', '#', '', {['data-layout'] = 'box_count', ['data-width'] = 60, ['data-show-faces'] = 'false', ['data-send'] = 'false'}),
+      _M.get_social_button('googleplus-one', url(('%s/%s'):format(parent.type, parent.id), {absolute = true}), '', {['data-size'] = 'tall'}),
+      _M.get_social_button('twitter-share', url(('%s/%s'):format(parent.type, parent.id), {absolute = true}), parent.title, {['data-related'] = config.twitter['data-related'], ['data-count'] = 'vertical'}),
+      _M.get_social_button('facebook-like', '#', '', {['data-layout'] = 'box_count', ['data-width'] = 60, ['data-show-faces'] = 'false', ['data-send'] = 'false'}),
     }},
     '</div>',
   }
@@ -50,7 +52,7 @@ do
   end
 end
 
-function get_social_button(widget_type, url, text, attributes)
+function _M.get_social_button(widget_type, url, text, attributes)
   local nojs_data
 
   if attributes == nil then
@@ -83,3 +85,5 @@ function get_social_button(widget_type, url, text, attributes)
 
   return ('<a %s>%s</a>'):format(render_attributes(attributes), nojs_data.text)
 end
+
+return _M
