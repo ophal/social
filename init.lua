@@ -52,5 +52,5 @@ function get_social_button(widget, url, text, attributes)
   attributes['data-url'] = url
   attributes['data-text'] = text
 
-  return ('<a href="https://twitter.com/share" %s ></a>'):format(render_attributes(attributes))
+  return ('<div %s></div>'):format(render_attributes(attributes))
 end
