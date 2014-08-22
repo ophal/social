@@ -26,7 +26,33 @@ function entity_render(parent)
   }
 end
 
-function get_social_button(widget, url, text, attributes)
+do
+  local share_urls = {
+    ['googleplus-one'] = {
+      url = 'https://plus.google.com/share?url=%s',
+      text = '<span class="vhidden">Share on Google+</span>',
+    },
+    ['twitter-share'] = {
+      url = 'http://twitter.com/share?url=%s',
+      text = '<span class="vhidden">Share on Twitter</span>',
+    },
+    ['facebook-like'] = {
+      url = 'http://www.facebook.com/sharer.php?u=%s&t=Socialite.js',
+      text = '<span class="vhidden">Share on Facebook</span>',
+    },
+    ['linkedin-share'] = {
+      url = 'http://www.linkedin.com/shareArticle?mini=true&url=%s&title=Socialite.js',
+      text = '<span class="vhidden">Share on LinkedIn</span>',
+    },
+  }
+  function get_nojs_data(widget_type)
+    return share_urls[widget_type] or {url = ''}
+  end
+end
+
+function get_social_button(widget_type, url, text, attributes)
+  local nojs_data
+
   if attributes == nil then
     attributes = {}
   end
@@ -47,10 +73,13 @@ function get_social_button(widget, url, text, attributes)
     css_added = true
   end
 
-  attributes.class = 'socialite ' .. widget
+  nojs_data = get_nojs_data(widget_type)
+
+  attributes.class = 'socialite ' .. widget_type
   attributes.rel = 'nofollow'
   attributes['data-url'] = url
   attributes['data-text'] = text
+  attributes.href = nojs_data.url:format(url)
 
-  return ('<div %s></div>'):format(render_attributes(attributes))
+  return ('<a %s>%s</a>'):format(render_attributes(attributes), nojs_data.text)
 end
